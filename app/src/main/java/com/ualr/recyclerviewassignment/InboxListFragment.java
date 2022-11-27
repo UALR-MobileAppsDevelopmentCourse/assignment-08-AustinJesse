@@ -54,10 +54,10 @@ public class InboxListFragment extends Fragment
     private void initRecycler() {
 
         recyclerView = recyclerView.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
-        List<Inbox> items = DataGenerator.getInboxData(this);
-        mAdapter = new AdapterList(this, items);
+        List<Inbox> items = DataGenerator.getInboxData(this.getActivity());
+        mAdapter = new AdapterList(this.getActivity(), items);
         recyclerView.setAdapter(mAdapter);
         mFAB = recyclerView.findViewById(R.id.fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
