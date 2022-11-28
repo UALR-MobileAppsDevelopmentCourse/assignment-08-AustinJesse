@@ -32,24 +32,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_multi_selection);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         initComponent();
     }
 
     private void initComponent() {
+        // TODO irconde. This is currently included in the fragment
+        /*
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         List<Inbox> items = DataGenerator.getInboxData(this);
         mAdapter = new AdapterList(this, items);
         recyclerView.setAdapter(mAdapter);
+        */
         mFAB = findViewById(R.id.fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 mAdapter.addNewItem();
                 recyclerView.scrollToPosition(0);
+                */
             }
         });
     }

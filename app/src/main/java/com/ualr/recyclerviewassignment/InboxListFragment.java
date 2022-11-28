@@ -34,7 +34,7 @@ public class InboxListFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        //viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
 
     @Nullable
@@ -47,18 +47,18 @@ public class InboxListFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState){
-        initRecycler();
-
+        initRecycler(view);
     }
 
-    private void initRecycler() {
-
-        recyclerView = recyclerView.findViewById(R.id.recyclerView);
+    private void initRecycler(View view) {
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setHasFixedSize(true);
         List<Inbox> items = DataGenerator.getInboxData(this.getActivity());
         mAdapter = new AdapterList(this.getActivity(), items);
         recyclerView.setAdapter(mAdapter);
+        // TODO irconde. You cannot do this here since the FAB belongs to the activity
+        /*
         mFAB = recyclerView.findViewById(R.id.fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +67,6 @@ public class InboxListFragment extends Fragment
                 recyclerView.scrollToPosition(0);
             }
         });
+         */
     }
-
 }
