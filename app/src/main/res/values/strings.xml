@@ -1,9 +1,17 @@
 <resources>
-    <string name="app_name">RecyclerViewAssignment</string>
+    <string name="app_name">Home Devices</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ipsum in placerat molestie.  Fusce quis mauris a enim sollicitudin
         \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ipsum in placerat molestie.  Fusce quis mauris a enim sollicitudin
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_icon">Delete Icon</string>
+    <string name="dialog_title">Forward Message</string>
+    <string name="dialog_msg">Forward</string>
+    <string name="message_label">Text:</string>
+    <string name="name_label">Name:</string>
+    <string name="send_btn_label">Send</string>
+    <string name="snackbar_message">Email deleted</string>
+    <string name="snackbar_action">delete</string>
+    <string name="to_label">To:</string>
+
 </resources>

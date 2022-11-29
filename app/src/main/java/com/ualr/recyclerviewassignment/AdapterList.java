@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ualr.recyclerviewassignment.model.Inbox;
 import com.ualr.recyclerviewassignment.Utils.Tools;
@@ -15,106 +16,105 @@ import com.ualr.recyclerviewassignment.Utils.DataGenerator;
 
 import java.util.List;
 
-public class AdapterList extends RecyclerView.Adapter<AdapterList.ViewHolder> {
+public class AdapterList extends RecyclerView.Adapter {
 
-    private Context ctx;
-    private List<Inbox> items;
-    int currentItemSelected;
+    private List<Inbox> mItems;
+    private Context mContext;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener mOnThumbnailClickListener;
 
-    public AdapterList(Context mContext, List<Inbox> items) {
-        this.ctx = mContext;
-        this.items = items;
-        this.currentItemSelected = -1;
+    public AdapterList(Context context, List<Inbox> items){
+        this.mItems = items;
+        this.mContext = context;
     }
-
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+        RecyclerView.ViewHolder vh;
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_email_chat, parent, false);
-        return new ViewHolder(itemView);
+        vh = new InboxViewHolder(itemView);
+        return vh;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Inbox inbox = items.get(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        InboxViewHolder viewHolder = (InboxViewHolder)holder;
+        Inbox i = mItems.get(position);
+        viewHolder.from.setText(i.getFrom());
+        viewHolder.message.setText(i.getMessage());
+        viewHolder.date.setText(i.getDate());
+        viewHolder.email.setText(i.getEmail());
+        viewHolder.initial.setText(i.getInitials());
 
-        holder.from.setText(inbox.getFrom());
-        holder.email.setText(inbox.getEmail());
-        holder.message.setText(inbox.getMessage());
-        holder.date.setText(inbox.getDate());
-        holder.image_letter.setText(inbox.getFrom().substring(0, 1));
-        toggleItemSelection(holder, inbox);
-    }
-
-    private void toggleItemSelection(ViewHolder holder, Inbox inbox) {
-        if (inbox.isSelected()) {
-            holder.image_checked.setVisibility(View.VISIBLE);
-            holder.image_letter.setVisibility(View.GONE);
-            holder.lyt_parent.setActivated(true);
-            holder.lyt_thumbnail.setClickable(true);
+        if(i.isSelected()){
+            viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.darker_gray));
+            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.ic_check_toolbar));
+            viewHolder.initial.setText("");
         } else {
-            holder.image_checked.setVisibility(View.GONE);
-            holder.image_letter.setVisibility(View.VISIBLE);
-            holder.lyt_parent.setActivated(false);
-            holder.lyt_thumbnail.setClickable(false);
+            viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.white));
+            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.shape_circle));
+            viewHolder.initial.setText(i.getInitials());
         }
     }
 
-    public void addNewItem() {
-        this.items.add(0, DataGenerator.getRandomInboxItem(this.ctx));
-        notifyItemInserted(0);
+    public void toggleItemState(int position){
+        this.mItems.get(position).toggleSelection();
+        notifyItemChanged(position);
     }
 
     @Override
-    public int getItemCount() {
-        return items.size();
+    public int getItemCount(){
+        return this.mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener{
+        void OnItemClick(View view, Inbox obj, int position);
+        void onIconClick(View view, Inbox obj, int position);
+    }
 
-        public TextView from, email, message, date, image_letter;
-        public ImageView image, image_checked;
-        public RelativeLayout lyt_checked, lyt_image, lyt_thumbnail;
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener){
+        this.mOnItemClickListener = mItemClickListener;
+    }
+
+
+    public void updateItems(List<Inbox> inboxList) {
+        this.mItems = inboxList;
+        notifyDataSetChanged();
+    }
+
+    public class InboxViewHolder extends RecyclerView.ViewHolder {
+        public TextView from;
+        public TextView message;
+        public TextView date;
+        public TextView email;
+        public TextView initial;
         public View lyt_parent;
 
-        public ViewHolder(View view) {
-            super(view);
-            lyt_thumbnail = view.findViewById(R.id.thumbnail);
-            from = view.findViewById(R.id.from);
-            email = view.findViewById(R.id.email);
-            message = view.findViewById(R.id.message);
-            date = view.findViewById(R.id.date);
-            image_letter = view.findViewById(R.id.image_letter);
-            image_checked = view.findViewById(R.id.image_checked);
-            image = view.findViewById(R.id.image);
-            lyt_checked = view.findViewById(R.id.lyt_checked);
-            lyt_image = view.findViewById(R.id.lyt_image);
-            lyt_parent = view.findViewById(R.id.lyt_parent);
+        public InboxViewHolder(@NonNull View v) {
+            super(v);
+            from = v.findViewById(R.id.name);
+            message = v.findViewById(R.id.message);
+            date = v.findViewById(R.id.date);
+            email = v.findViewById(R.id.email);
+            initial = v.findViewById(R.id.initial);
+            lyt_parent = v.findViewById(R.id.lyt_parent);
 
             lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (currentItemSelected != -1) {
-                        items.get(currentItemSelected).toggleSelection();
-                        notifyItemChanged(currentItemSelected);
-                    }
-                    if (getBindingAdapterPosition() != currentItemSelected) {
-                        items.get(getBindingAdapterPosition()).toggleSelection();
-                        notifyItemChanged(getBindingAdapterPosition());
-                        currentItemSelected = getBindingAdapterPosition();
-                    }
+                    mOnItemClickListener.OnItemClick(view, mItems.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
 
-            lyt_thumbnail.setOnClickListener(new View.OnClickListener() {
+            initial.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    if (getBindingAdapterPosition() == currentItemSelected) {
-                        items.remove(getBindingAdapterPosition());
-                        notifyItemRemoved(getBindingAdapterPosition());
-                        currentItemSelected = -1;
-                    }
+                public void onClick(View v) {
+                    mOnItemClickListener.onIconClick(v, mItems.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
         }
     }
+
+
+
 }

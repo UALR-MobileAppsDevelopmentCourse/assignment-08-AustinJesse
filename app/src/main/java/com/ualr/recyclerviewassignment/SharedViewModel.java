@@ -1,23 +1,30 @@
 package com.ualr.recyclerviewassignment;
 
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.ualr.recyclerviewassignment.model.Inbox;
+
 import java.util.List;
 
-import com.ualr.recyclerviewassignment.model.Inbox;
-import com.ualr.recyclerviewassignment.Utils.Tools;
-import com.ualr.recyclerviewassignment.Utils.DataGenerator;
-
 public class SharedViewModel extends ViewModel {
-    private final MutableLiveData<Inbox> selected = new MutableLiveData<Inbox>();
-    public void select(Inbox item){
-        selected.setValue(item);
+    private static final int NO_SELECTION = -1;
+    private MutableLiveData<List<Inbox>> inboxList = new MutableLiveData<>();
+    private MutableLiveData<Integer> selectedIndex = new MutableLiveData<>(NO_SELECTION);
+
+    public LiveData<List<Inbox>> getInboxList() {
+        return inboxList;
     }
-    public LiveData<Inbox> getSelected(){
-        return selected;
+
+    public void setInboxList(List<Inbox> inboxList) {
+        this.inboxList.setValue(inboxList);
+    }
+
+    public LiveData<Integer> getSelectedIndex() {
+        return selectedIndex;
+    }
+    public void setSelectedIndex(int selected) {
+        this.selectedIndex.setValue(selected);
     }
 }
