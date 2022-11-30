@@ -48,7 +48,7 @@ public class ForwardDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.forward_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_forward_dialog, container, false);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ForwardDialogFragment extends DialogFragment {
 
         final Inbox selectedItem = mViewModel.getInboxList().getValue().get(selectedIndex);
 
-        Button sendBtn = view.findViewById(R.id.dialog_button);
+        Button sendBtn = view.findViewById(R.id.dialog_send_btn);
         final EditText nameET = view.findViewById(R.id.dialog_name);
         final EditText emailET = view.findViewById(R.id.dialog_to);
         final EditText contentET = view.findViewById(R.id.dialog_msg);
