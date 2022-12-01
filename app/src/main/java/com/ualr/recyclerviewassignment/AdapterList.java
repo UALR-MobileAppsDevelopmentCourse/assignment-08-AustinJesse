@@ -4,29 +4,36 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ualr.recyclerviewassignment.InboxListFragment;
+import com.ualr.recyclerviewassignment.R;
 import com.ualr.recyclerviewassignment.model.Inbox;
-import com.ualr.recyclerviewassignment.Utils.Tools;
-import com.ualr.recyclerviewassignment.Utils.DataGenerator;
 
 import java.util.List;
 
 public class AdapterList extends RecyclerView.Adapter {
-
     private List<Inbox> mItems;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
-    private OnItemClickListener mOnThumbnailClickListener;
+
+    public interface OnItemClickListener{
+        void OnItemClick(View view, Inbox obj, int position);
+        void onIconClick(View view, Inbox obj, int position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener){
+        this.mOnItemClickListener = mItemClickListener;
+    }
 
     public AdapterList(Context context, List<Inbox> items){
         this.mItems = items;
         this.mContext = context;
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
@@ -48,8 +55,7 @@ public class AdapterList extends RecyclerView.Adapter {
 
         if(i.isSelected()){
             viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.darker_gray));
-            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.delete_with_drawable));
-
+            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.selected_with_drawable));
             viewHolder.initial.setText("");
         } else {
             viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.white));
@@ -67,16 +73,6 @@ public class AdapterList extends RecyclerView.Adapter {
     public int getItemCount(){
         return this.mItems.size();
     }
-
-    public interface OnItemClickListener{
-        void OnItemClick(View view, Inbox obj, int position);
-        void onIconClick(View view, Inbox obj, int position);
-    }
-
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener){
-        this.mOnItemClickListener = mItemClickListener;
-    }
-
 
     public void updateItems(List<Inbox> inboxList) {
         this.mItems = inboxList;
