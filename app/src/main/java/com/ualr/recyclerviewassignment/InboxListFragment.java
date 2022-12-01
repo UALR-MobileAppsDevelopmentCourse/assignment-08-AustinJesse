@@ -2,7 +2,6 @@ package com.ualr.recyclerviewassignment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ualr.recyclerviewassignment.R;
 import com.ualr.recyclerviewassignment.Utils.DataGenerator;
-import com.ualr.recyclerviewassignment.adapter.AdapterList;
+import com.ualr.recyclerviewassignment.AdapterList;
 import com.ualr.recyclerviewassignment.model.Inbox;
-import com.ualr.recyclerviewassignment.SharedViewModel;
 
 import java.util.List;
 

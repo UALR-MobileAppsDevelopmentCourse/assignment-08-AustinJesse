@@ -48,7 +48,8 @@ public class AdapterList extends RecyclerView.Adapter {
 
         if(i.isSelected()){
             viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.darker_gray));
-            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.ic_check_toolbar));
+            viewHolder.initial.setBackground(mContext.getDrawable(R.drawable.delete_with_drawable));
+
             viewHolder.initial.setText("");
         } else {
             viewHolder.lyt_parent.setBackgroundColor(mContext.getResources().getColor(android.R.color.white));

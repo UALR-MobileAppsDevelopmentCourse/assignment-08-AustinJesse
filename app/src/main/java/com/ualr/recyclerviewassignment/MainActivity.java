@@ -13,14 +13,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.ualr.recyclerviewassignment.adapter.AdapterList;
+import com.ualr.recyclerviewassignment.AdapterList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ualr.recyclerviewassignment.fragments.ForwardDialogFragment;
+import com.ualr.recyclerviewassignment.ForwardDialogFragment;
 import com.ualr.recyclerviewassignment.model.Inbox;
 import com.ualr.recyclerviewassignment.Utils.Tools;
 import java.util.List;
 
-import com.ualr.recyclerviewassignment.fragments.InboxListFragment;
+import com.ualr.recyclerviewassignment.InboxListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
