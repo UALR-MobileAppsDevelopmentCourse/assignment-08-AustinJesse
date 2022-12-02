@@ -41,6 +41,7 @@ public class DataGenerator {
         return items;
     }
 
+    //extract first letter of the name and then pass in that to obj.setInitials()
     public static Inbox getRandomInboxItem(Context ctx) {
         List<Inbox> items = new ArrayList<>();
         String name_arr[] = ctx.getResources().getStringArray(R.array.people_names);
@@ -53,6 +54,7 @@ public class DataGenerator {
         obj.setEmail(Tools.getEmailFromName(obj.getFrom()));
         obj.setMessage(ctx.getResources().getString(R.string.lorem_ipsum));
         obj.setDate(date_arr[indexDate]);
+        obj.setInitials(initial_arr[indexName]);
         return obj;
     }
 }

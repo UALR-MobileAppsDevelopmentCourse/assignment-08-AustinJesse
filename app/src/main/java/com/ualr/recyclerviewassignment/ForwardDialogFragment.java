@@ -49,38 +49,46 @@ public class ForwardDialogFragment extends DialogFragment {
 
         final int selectedIndex = getArguments().getInt(SELECT_KEY);
 
-        final Inbox selectedItem = mViewModel.getInboxList().getValue().get(selectedIndex);
+        if (selectedIndex >= 0) {
+            final Inbox selectedItem = mViewModel.getInboxList().getValue().get(selectedIndex);
 
-        Button sendBtn = view.findViewById(R.id.dialog_send_btn);
-        final EditText nameET = view.findViewById(R.id.dialog_name);
-        final EditText emailET = view.findViewById(R.id.dialog_to);
-        final EditText contentET = view.findViewById(R.id.dialog_msg);
+            Button sendBtn = view.findViewById(R.id.dialog_send_btn);
+            final EditText nameET = view.findViewById(R.id.dialog_name);
+            final EditText emailET = view.findViewById(R.id.dialog_to);
+            final EditText contentET = view.findViewById(R.id.dialog_msg);
 
-        nameET.setText(selectedItem.getFrom());
-        emailET.setText(selectedItem.getEmail());
-        contentET.setText(selectedItem.getMessage());
+            nameET.setText(selectedItem.getFrom());
+            emailET.setText(selectedItem.getEmail());
+            contentET.setText(selectedItem.getMessage());
 
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String newName = nameET.getText().toString();
-                String newEmail = emailET.getText().toString();
-                String newContent = contentET.getText().toString();
+            sendBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String newName = nameET.getText().toString();
+                    String newEmail = emailET.getText().toString();
+                    String newContent = contentET.getText().toString();
 
-                Inbox forwardEmail = new Inbox();
-                forwardEmail.setFrom(newName);
-                forwardEmail.setEmail(newEmail);
-                forwardEmail.setMessage(newContent);
-                forwardEmail.setDate(selectedItem.getDate());
-                forwardEmail.setSelected(false);
+                    char firstLetter = newName.charAt(0);
+                    String newInitial = "" + firstLetter;
 
-                List<Inbox> currentEmails = mViewModel.getInboxList().getValue();
-                currentEmails.set(selectedIndex, forwardEmail);
-                mViewModel.setInboxList(currentEmails);
-                dismissDialog();
-            }
-        });
+                    Inbox forwardEmail = new Inbox();
+                    forwardEmail.setFrom(newName);
+                    forwardEmail.setInitials(newInitial);
+                    forwardEmail.setEmail(newEmail);
+                    forwardEmail.setMessage(newContent);
+                    forwardEmail.setDate(selectedItem.getDate());
+                    forwardEmail.setSelected(false);
 
+                    List<Inbox> currentEmails = mViewModel.getInboxList().getValue();
+                    currentEmails.set(selectedIndex, forwardEmail);
+                    mViewModel.setInboxList(currentEmails);
+                    dismissDialog();
+                }
+            });
+        }
+        else {
+            dismissDialog();
+        }
     }
     public void dismissDialog() {
         this.dismiss();
