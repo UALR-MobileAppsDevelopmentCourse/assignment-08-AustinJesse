@@ -100,8 +100,6 @@ public class AdapterList extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View view) {
                     mOnItemClickListener.OnItemClick(view, mItems.get(getLayoutPosition()), getLayoutPosition());
-                    mItems.get(getLayoutPosition()).toggleSelection();
-                    notifyItemChanged(getLayoutPosition());
                 }
             });
 
